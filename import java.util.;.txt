@@ -1,0 +1,45 @@
+import java.util.*;
+
+public class TwoElement {
+
+    public static int[] findTwoElement(int[] arr, int n) {
+        int[] result = new int[2];
+        int duplicate = -1;
+        int missing = -1;
+
+        for (int num : arr) {
+            int index = Math.abs(num) - 1;
+            // If the value at this index is negative, it means this is the duplicate
+            if (arr[index] < 0) {
+                duplicate = Math.abs(num);
+            } else {
+                // Mark the element as visited by negating its value
+                arr[index] = -arr[index];
+            }
+        }
+
+        // At this point, the element with a positive value indicates the missing number
+        for (int i = 0; i < n; i++) {
+            if (arr[i] > 0) {
+                missing = i + 1;
+                break;
+            }
+        }
+
+        result[0] = duplicate;
+        result[1] = missing;
+        return result;
+    }
+
+    public static void main(String[] args) {
+        int[] arr1 = {2, 2};
+        int n1 = arr1.length;
+        int[] result1 = findTwoElement(arr1, n1);
+        System.out.println(Arrays.toString(result1));  // Output: [2, 1]
+
+        int[] arr2 = {1, 3, 3};
+        int n2 = arr2.length;
+        int[] result2 = findTwoElement(arr2, n2);
+        System.out.println(Arrays.toString(result2));  // Output: [3, 2]
+    }
+}
